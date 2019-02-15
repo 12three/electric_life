@@ -1,23 +1,38 @@
 const World = require('./world');
-const { Wall, BouncingCritter } = require('./worldElements/worldElements');
+const worldElements = require('./worldElements/worldElements');
 
 const plan = [
     "###########################",
     "#      #    #      o     ##",
     "#                         #",
-    "#           ######        #",
+    "#   ~       ######        #",
     "##        #    #    ##    #",
     "###           ##     #    #",
     "#           ###      #    #",
     "#   ####                  #",
-    "#   ##       o            #",
+    "#   ##       o           ~#",
     "# o  #         o      ### #",
     "#    #                    #",
     "###########################",
 ];
+const testPlan = [
+    "###########################",
+    "#                         #",
+    "#                         #",
+    "# ~                       #",
+    "#                         #",
+    "##                        #",
+    "#                         #",
+    "#                         #",
+    "#                         #",
+    "#                         #",
+    "#                         #",
+    "###########################",
+];
 const legend = {
-    '#': Wall,
-    'o': BouncingCritter,
+    '#': worldElements.Wall,
+    'o': worldElements.BouncingCritter,
+    '~': worldElements.WallFollower,
 }
 
 const world = new World(plan, legend);
