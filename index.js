@@ -21,4 +21,7 @@ const legend = {
 }
 
 const world = new World(plan, legend);
-console.log(world.toString());
+for (let i = 0; i < 5; i++) {
+    world.turn();
+    console.log(world.toString());
+}
