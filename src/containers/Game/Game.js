@@ -3,6 +3,7 @@ import WorldSimulation from '../../components/WorldSimulation/WorldSimulation';
 
 class Game extends Component {
     render() {
+
         const plan = [
             "###########################",
             "####                 ######",
@@ -20,7 +21,7 @@ class Game extends Component {
 
         return (
             <div>
-                <WorldSimulation plan={plan}/>
+                <WorldSimulation plan={plan} />
             </div>
         )
     }

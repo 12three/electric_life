@@ -11,19 +11,25 @@ class WorldSimulation extends Component {
     });
 
     state = {
+        turnsCounter: 0,
         map: [],
     }
 
     componentDidMount() {
-        this.setState({
-            map: this.world.getCurrentState(),
-        });
+        setTimeout(() => {
+            this.setState({
+                map: this.world.getCurrentState(),
+            });
+        }, 1);
     }
 
     clicled() {
         this.world.turn();
-        this.setState({
-            map: this.world.getCurrentState(),
+        this.setState((state, props) => {
+            return {
+                turnsCounter: state.turnsCounter + 1,
+                map: this.world.getCurrentState(),
+            }
         });
     }
 
@@ -31,20 +37,25 @@ class WorldSimulation extends Component {
         const worldMap = this.state.map.reduce((acc, item, rowIndex) => {
             return [
                 ...acc,
-                <div className={styles.row} key={ `r${rowIndex}` }>
+                <div
+                    className="row"
+                    key={ `r${rowIndex}` }>
                     {
                         item.map((elem, colIndex) => {
-                            return <div className={styles.col} key={`${rowIndex}:${colIndex}` }>
+                            return <div
+                                className="col"
+                                key={ `${rowIndex}:${colIndex}` }>
                                 { elem ? elem.originChar || ' ' : ' ' }
                             </div>;
                         })
                     }
                 </div>
             ]
-        }, [])
+        }, []);
 
         return (
             <div>
+                <div>Current turn: { this.state.turnsCounter }</div>
                 { worldMap }
                 <button onClick={this.clicled.bind(this)}>Next turn</button>
             </div>
