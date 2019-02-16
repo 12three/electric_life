@@ -3,7 +3,9 @@ import mergeWith from 'lodash/mergeWith';
 
 import World from './world';
 import worldElements from './worldElements/worldElements';
-import GameStatistic from './GameStatistic/GameStatistic';
+import Scoreboard from './Scoreboard/Scoreboard';
+import GameNavigation from './GameNavigation/GameNavigation';
+import GameArea from './GameArea/GameArea';
 
 class WorldSimulation extends Component {
     world = new World(this.props.plan, {
@@ -50,7 +52,7 @@ class WorldSimulation extends Component {
         }, {})
     }
 
-    makeTurn() {
+    handleNextTurn() {
         this.world.turn()
             .then((newMapState) => {
                 this.setState((state, props) => {
@@ -64,32 +66,15 @@ class WorldSimulation extends Component {
     }
 
     render() {
-        const worldMap = this.state.map.reduce((acc, item, rowIndex) => {
-            return [
-                ...acc,
-                <div
-                    className="row"
-                    key={ `r${rowIndex}` }>
-                    {
-                        item.map((elem, colIndex) => {
-                            return <div
-                                className="col"
-                                key={ `${rowIndex}:${colIndex}` }>
-                                { elem ? elem.originChar || ' ' : ' ' }
-                            </div>;
-                        })
-                    }
-                </div>
-            ]
-        }, []);
-
         return (
             <div>
-                <div>Current turn: { this.state.turnsCounter }</div>
-                <GameStatistic stat={this.state.gameStat}/>
+                <Scoreboard
+                    stat={this.state.gameStat}
+                    turnsCounter={this.state.turnsCounter}/>
                 <br/>
-                { worldMap }
-                <button onClick={this.makeTurn.bind(this)}>Next turn</button>
+                <GameArea map={this.state.map} />
+                <GameNavigation
+                    onNextTurn={this.handleNextTurn.bind(this)}/>
             </div>
         )
     }
