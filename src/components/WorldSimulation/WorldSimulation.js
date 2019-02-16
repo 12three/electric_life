@@ -32,7 +32,7 @@ class WorldSimulation extends Component {
     getStat(mapState) {
         return mapState.reduce((acc, row) => {
             const rowStat = row.reduce((acc, cell) => {
-                if (cell == null || cell.originChar === '#') {
+                if (cell == null) {
                     return acc
                 }
 
