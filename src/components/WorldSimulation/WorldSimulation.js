@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
+import mergeWith from 'lodash/mergeWith';
+
 import World from './world';
 import worldElements from './worldElements/worldElements';
-import styles from './WorldSimulation.module.css';
+import GameStatistic from './GameStatistic/GameStatistic';
 
 class WorldSimulation extends Component {
     world = new World(this.props.plan, {
@@ -13,24 +15,52 @@ class WorldSimulation extends Component {
     state = {
         turnsCounter: 0,
         map: [],
+        gameStat: null,
     }
 
     componentDidMount() {
         setTimeout(() => {
+            const currentGameState = this.world.getCurrentState()
+
             this.setState({
                 map: this.world.getCurrentState(),
+                gameStat: this.getStat(currentGameState),
             });
         }, 1);
     }
 
-    clicled() {
-        this.world.turn();
-        this.setState((state, props) => {
-            return {
-                turnsCounter: state.turnsCounter + 1,
-                map: this.world.getCurrentState(),
-            }
-        });
+    getStat(mapState) {
+        return mapState.reduce((acc, row) => {
+            const rowStat = row.reduce((acc, cell) => {
+                if (cell == null || cell.originChar === '#') {
+                    return acc
+                }
+
+                const origCh = cell.originChar ;
+                const chCount = acc.hasOwnProperty(origCh) ? acc[origCh] + 1 : 1;
+                    return {
+                        ...acc,
+                        [origCh]: chCount
+                    }
+            }, {})
+
+            return mergeWith(acc, rowStat, (objValue, srcValue) => {
+                return objValue ? objValue + srcValue : srcValue;
+            });
+        }, {})
+    }
+
+    makeTurn() {
+        this.world.turn()
+            .then((newMapState) => {
+                this.setState((state, props) => {
+                    return {
+                        turnsCounter: state.turnsCounter + 1,
+                        map: newMapState,
+                        gameStat: this.getStat(newMapState),
+                    }
+                });
+            });
     }
 
     render() {
@@ -56,8 +86,10 @@ class WorldSimulation extends Component {
         return (
             <div>
                 <div>Current turn: { this.state.turnsCounter }</div>
+                <GameStatistic stat={this.state.gameStat}/>
+                <br/>
                 { worldMap }
-                <button onClick={this.clicled.bind(this)}>Next turn</button>
+                <button onClick={this.makeTurn.bind(this)}>Next turn</button>
             </div>
         )
     }

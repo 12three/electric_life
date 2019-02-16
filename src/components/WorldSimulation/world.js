@@ -33,14 +33,18 @@ World.prototype.toString = function() {
 };
 
 World.prototype.turn = function() {
-    const acted = [];
+    return new Promise(resolve => {
+        const acted = [];
 
-    this.grid.forEach(function(critter, vector) {
-        if (critter.act && acted.indexOf(critter) === -1) {
-            acted.push(critter);
-            this.letAct(critter, vector);
-        }
-    }, this)
+        this.grid.forEach(function (critter, vector) {
+            if (critter.act && acted.indexOf(critter) === -1) {
+                acted.push(critter);
+                this.letAct(critter, vector);
+            }
+        }, this)
+
+        resolve(this.getCurrentState());
+    })
 };
 
 World.prototype.letAct = function (critter, vector) {
