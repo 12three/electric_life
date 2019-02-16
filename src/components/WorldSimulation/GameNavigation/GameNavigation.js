@@ -4,11 +4,12 @@ import styles from './GameNavigation.module.css';
 const GameNavigation = (props) => {
     return <div className={styles.GameNavigation}>
         <button
+            className={styles.button}
             onClick={ props.onNextTurn }
-            disabled={ props.nextTurnDisabled }>Next turn</button>
+            disabled={ props.autoplay }>Next turn</button>
         <button
-            onClick={ props.onAutoplayClick }
-            disabled={props.autoplayDisabled}>Autoplay</button>
+            className={styles.button + ( props.autoplay ? ` ${styles.active}` : '' )}
+            onClick={ props.onAutoplayClick }>Autoplay</button>
     </div>
 }
 

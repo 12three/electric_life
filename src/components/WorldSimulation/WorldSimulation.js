@@ -101,7 +101,8 @@ class WorldSimulation extends Component {
                 <GameArea map={this.state.map} />
                 <GameNavigation
                     onNextTurn={ this.makeNextTurn.bind(this) }
-                    onAutoplayClick={ this.toggleAutoplay.bind(this) }/>
+                    onAutoplayClick={ this.toggleAutoplay.bind(this) }
+                    autoplay={ this.state.autoplay }/>
             </div>
         )
     }

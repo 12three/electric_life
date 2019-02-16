@@ -1,3 +1,7 @@
-.GameNavigation {
+.button {
+    font-weight: 900;
+}
 
+.active {
+    background: rgb(170, 248, 170);
 }
