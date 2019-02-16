@@ -1,6 +1,7 @@
 const Grid = require('./grid');
 const View = require('./view');
 const Vector = require('./vector');
+const actionTypes = require('./actionTypes');
 const { DIRECTIONS } = require('./constants');
 const { elementFromChar, charFromElement } = require('./tools');
 
@@ -42,15 +43,16 @@ World.prototype.turn = function() {
     }, this)
 };
 
-World.prototype.letAct = function(critter, vector) {
+World.prototype.letAct = function (critter, vector) {
     const action = critter.act(new View(this, vector));
+    const handled = action &&
+        action.type in actionTypes &&
+        actionTypes[action.type].call(this, critter, vector, action);
 
-    if (action && action.type == 'move') {
-        const dest = this.checkDestination(action, vector);
-
-        if (dest && this.grid.get(dest) == null) {
-            this.grid.set(vector, null);
-            this.grid.set(dest, critter);
+    if (!handled) {
+        critter.energy -= 0.2;
+        if (critter.energy <= 0) {
+            this.grid.set(vector, null)
         }
     }
 };

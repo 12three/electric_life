@@ -1,5 +1,5 @@
 module.exports = {
     Wall: require('./wall'),
-    BouncingCritter: require('./bouncingCritter'),
-    WallFollower: require('./wallFollower'),
+    Plant: require('./plant'),
+    PlantEater: require('./plantEater'),
 }

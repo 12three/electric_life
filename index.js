@@ -1,29 +1,7 @@
 const World = require('./world');
-const Valley = require('./valley');
 const worldElements = require('./worldElements/worldElements');
-const valleyElements = require('./valleyElements/valleyElements');
 
-const worldPlan = [
-    "###########################",
-    "#      #    #      o     ##",
-    "#                         #",
-    "#   ~       ######        #",
-    "##        #    #    ##    #",
-    "###           ##     #    #",
-    "#           ###      #    #",
-    "#   ####                  #",
-    "#   ##       o           ~#",
-    "# o  #         o      ### #",
-    "#    #                    #",
-    "###########################",
-];
-const legend = {
-    '#': worldElements.Wall,
-    'o': worldElements.BouncingCritter,
-    '~': worldElements.WallFollower,
-};
-
-const valleyPlan = [
+const plan = [
     "###########################",
     "####                 ######",
     "##  ***                **##",
@@ -37,16 +15,14 @@ const valleyPlan = [
     "##****   ###***        *###",
     "###########################",
 ];
-const valleyLegend = {
+const legend = {
     '#': worldElements.Wall,
-    'O': valleyElements.PlantEater,
-    '*': valleyElements.Plant
+    'O': worldElements.PlantEater,
+    '*': worldElements.Plant,
 };
-
-const world = new World(worldPlan, legend);
-const valley = new Valley(valleyPlan, valleyLegend)
+const world = new World(plan, legend);
 
 for (let i = 0; i < 50; i++) {
-    valley.turn();
-    console.log(valley.toString());
+    world.turn();
+    console.log(world.toString());
 }
