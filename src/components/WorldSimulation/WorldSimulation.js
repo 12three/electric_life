@@ -18,6 +18,15 @@ class WorldSimulation extends Component {
         turnsCounter: 0,
         map: [],
         gameStat: null,
+        autoplay: false,
+    }
+
+    componentWillMount() {
+        setInterval(() => {
+            if (this.state.autoplay) {
+                this.makeNextTurn();
+            }
+        }, 500);
     }
 
     componentDidMount() {
@@ -52,17 +61,34 @@ class WorldSimulation extends Component {
         }, {})
     }
 
-    handleNextTurn() {
+    isGameFinished(stat) {
+        return !stat.hasOwnProperty('*') || !stat.hasOwnProperty('O');
+    }
+
+    makeNextTurn() {
         this.world.turn()
             .then((newMapState) => {
                 this.setState((state, props) => {
+                    const gameStat = this.getStat(newMapState);
+
+                    if (this.isGameFinished(gameStat)) {
+                        alert('It is the end. Thank you for the game!');
+                        window.location.reload();
+                    }
+
                     return {
                         turnsCounter: state.turnsCounter + 1,
                         map: newMapState,
-                        gameStat: this.getStat(newMapState),
+                        gameStat,
                     }
                 });
             });
+    }
+
+    toggleAutoplay() {
+        this.setState(state => {
+            return { autoplay: !state.autoplay };
+        });
     }
 
     render() {
@@ -74,7 +100,8 @@ class WorldSimulation extends Component {
                 <br/>
                 <GameArea map={this.state.map} />
                 <GameNavigation
-                    onNextTurn={this.handleNextTurn.bind(this)}/>
+                    onNextTurn={ this.makeNextTurn.bind(this) }
+                    onAutoplayClick={ this.toggleAutoplay.bind(this) }/>
             </div>
         )
     }
