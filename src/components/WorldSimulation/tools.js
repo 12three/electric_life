@@ -1,7 +1,7 @@
 const { DIRECTIONS } = require('./constants');
 
 function elementFromChar(legend, ch) {
-    if (ch == " ") {
+    if (ch === " ") {
         return null;
     }
 
@@ -12,7 +12,7 @@ function elementFromChar(legend, ch) {
 
 
 function charFromElement(element) {
-    if (element == null) {
+    if (element === null) {
         return " ";
     }
     return element.originChar;

@@ -10,7 +10,7 @@ function grow(critter) {
 function move(critter, vector, action) {
     const dest = this.checkDestination(action, vector);
 
-    if (dest == null ||
+    if (dest === null ||
         critter.energy <= 1 ||
         this.grid.get(dest) != null) {
         return false
@@ -41,7 +41,7 @@ function reproduce(critter, vector, action) {
     const baby = elementFromChar(this.legend, critter.originChar);
     const dest = this.checkDestination(action, vector);
 
-    if(dest == null ||
+    if(dest === null ||
         critter.energy <= 2 * baby.energy ||
         this.grid.get(dest) != null ) {
         return false

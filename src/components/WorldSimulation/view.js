@@ -34,7 +34,7 @@ View.prototype.findAll = function(ch) {
 View.prototype.find = function (ch) {
     const found = this.findAll(ch);
 
-    if (found.length == 0) {
+    if (found.length === 0) {
         return null
     }
 

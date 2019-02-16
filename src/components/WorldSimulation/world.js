@@ -67,4 +67,19 @@ World.prototype.checkDestination = function(action, vector) {
     }
 }
 
+World.prototype.getCurrentState = function () {
+    let output = [];
+    for (let y = 0; y < this.grid.height; y++) {
+        const row = []
+
+        for (let x = 0; x < this.grid.width; x++) {
+            const element = this.grid.get(new Vector(x, y));
+            row.push(element);
+        }
+
+        output.push(row);
+    }
+    return output;
+}
+
 module.exports = World;
